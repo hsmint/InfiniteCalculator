@@ -1,1 +1,1 @@
-# InifiniteCalculator
+# InfiniteCalculator
