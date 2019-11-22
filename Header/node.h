@@ -54,7 +54,7 @@ int s_empty(STACK* s){
 }
 
 char s_top(STACK* s){
-    if (s->num == 0) return '-1';
+    if (s->num == 0) return '\0';
     else return s->head->d;
 }
 
@@ -88,12 +88,12 @@ int q_size(QUEUE* q){
 }
 
 char q_front(QUEUE* q){
-    if (q->num == 0) return '-1';
+    if (q->num == 0) return '\0';
     return q->head->d;
 }
 
 char q_back(QUEUE* q){
-    if (q->num == 0) return '-1';
+    if (q->num == 0) return '\0';
     return q->tail->d;
 }
 
