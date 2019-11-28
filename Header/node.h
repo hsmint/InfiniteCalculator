@@ -12,32 +12,22 @@ typedef struct node{
     struct node* next;
 }NODE;
 
-//STACK
-typedef struct st{
-    CNT num;
-    NODE* head;
-}STACK;
-
+//LIST
 typedef struct list{
-    CNT op;
     CNT num;
     NODE* head;
 }LIST;
 
-// LIST METHOD
+//LIST METHOD
 
-void l_init(LIST*);
+void init(LIST*);
 
-//STACK METHOD
+void push(LIST*, DATA);
 
-void init(STACK*);
+char pop(LIST*);
 
-void push(STACK*, DATA);
+int size(LIST*);
 
-char pop(STACK*);
+int empty(LIST*);
 
-int size(STACK*);
-
-int empty(STACK*);
-
-char top(STACK*);
+char top(LIST*);
