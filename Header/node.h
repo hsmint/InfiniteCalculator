@@ -18,16 +18,26 @@ typedef struct st{
     NODE* head;
 }STACK;
 
+typedef struct list{
+    CNT op;
+    CNT num;
+    NODE* head;
+}LIST;
+
+// LIST METHOD
+
+void l_init(LIST*);
+
 //STACK METHOD
 
-void init(STACK* s);
+void init(STACK*);
 
-void push(STACK* s, DATA data);
+void push(STACK*, DATA);
 
-char pop(STACK* s);
+char pop(STACK*);
 
-int size(STACK* s);
+int size(STACK*);
 
-int empty(STACK* s);
+int empty(STACK*);
 
-char top(STACK* s);
+char top(STACK*);
