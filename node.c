@@ -9,10 +9,11 @@ void init(LIST* s){
 
 void push(LIST* s, DATA data){
     NODE* tmp = (NODE*)malloc(sizeof(NODE));
+    int size = strlen(data);
     tmp->next = s->head;
+    tmp->d = (char*)malloc(sizeof(char)*size);
     tmp->d = data;
     s->head = tmp;
-    s->num += 1;
 }
 
 char pop(LIST* s){

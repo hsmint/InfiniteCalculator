@@ -1,8 +1,8 @@
 #include <stdlib.h>
-
+#include <string.h>
 //DEFINE
 
-#define DATA char
+#define DATA char*
 #define CNT int
 
 //TYPEDEF
