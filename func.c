@@ -9,10 +9,14 @@ void(*func_p(const char opCode))(NODE, NODE){
     }
 }
 
-void add(NODE a, NODE b){
+NODE* add(NODE* a, NODE* b){
+    NODE* new_num = (NODE*)malloc(sizeof(NODE));
 
+    return new_num;
 }
 
-void minus(NODE a, NODE b){
+NODE* minus(NODE* a, NODE* b){
+    NODE* new_num = (NODE*)malloc(sizeof(NODE));
 
+    return new_num;
 }

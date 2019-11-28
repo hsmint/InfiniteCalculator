@@ -1,5 +1,5 @@
 void(*func_p(const char opCode))(NODE, NODE);
 
-void add(NODE);
+NODE* add(NODE*, NODE*);
 
-void minus(NODE);
+NODE* minus(NODE*, NODE*);
