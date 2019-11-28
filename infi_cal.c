@@ -37,6 +37,6 @@ void read(FILE* ifp, char** buf){
     fseek(ifp, 0, SEEK_END);
     int size = ftell(ifp);
     fseek(ifp, 0, SEEK_SET);
-    *buf = (char*)malloc((sizeof(char))*size-);
+    *buf = (char*)malloc((sizeof(char))*size);
     fscanf(ifp, "%s", *buf);
 }
