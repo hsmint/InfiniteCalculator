@@ -20,15 +20,14 @@ typedef struct st{
 
 //STACK METHOD
 
-void s_init(STACK* s);
+void init(STACK* s);
 
-void s_push(STACK* s, DATA data);
+void push(STACK* s, DATA data);
 
-char s_pop(STACK* s);
+char pop(STACK* s);
 
-int s_size(STACK* s);
+int size(STACK* s);
 
+int empty(STACK* s);
 
-int s_empty(STACK* s);
-
-char s_top(STACK* s);
+char top(STACK* s);
