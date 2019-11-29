@@ -1,6 +1,5 @@
 #include <stdio.h>
-#include "Header/node.h"
-#include "Header/func.h"
+#include "cal_fun.h"
 
 //함수 호출
 void read(FILE*, char**);

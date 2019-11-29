@@ -1,7 +1,6 @@
-#include "Header/func.h"
-#include "Header/node.h"
+#include "cal_fun.h"
 
-void(*func_p(const char opCode))(NODE, NODE){
+void(*func_p(const char opCode))(NODE*, NODE*){
     if (opCode == '+'){
         return &add;
     } else{
