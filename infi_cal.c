@@ -2,9 +2,9 @@
 #include "cal_fun.h"
 
 //함수 호출
-void read(FILE*, char**);
+int read(FILE*, char**);
 
-void store(LIST*, LIST*, char*);
+void store(LIST*, char*);
 
 //메인
 int main(int argc, char* argv[]){
@@ -22,40 +22,44 @@ int main(int argc, char* argv[]){
     
     // Read from File
     ifp = fopen(argv[1], "r");
-    read(ifp, &buf);
-
+    int t_size = read(ifp, &buf) + 1;
     // Init
     LIST* oper = (LIST*)malloc(sizeof(LIST));
     init(oper);
     LIST* link = (LIST*)malloc(sizeof(LIST));
     init(link);
 
-    //
+    // Save number
+    char* cpy = (char*)malloc(sizeof(char)*t_size);
+    strcpy(cpy, buf);
+    store(link, cpy);
+    free(cpy);
+
+    // Operation
     
 
     //finish
+    free(oper);
+    free(link);
 
     return 0;
 }
 
 //함수
-void read(FILE* ifp, char** buf){
+int read(FILE* ifp, char** buf){
     fseek(ifp, 0, SEEK_END);
     int size = ftell(ifp);
     fseek(ifp, 0, SEEK_SET);
     *buf = (char*)malloc((sizeof(char))*size);
     fscanf(ifp, "%s", *buf);
+    return size;
 }
 
-void store(LIST* link, LIST* oper, char* buf){
-    char* find = "()+-";
+void store(LIST* link, char* buf){
+    char* oper = "+-()";
     char* seek;
-    int index = strstr(buf, find);
-    push(oper, buf[index]);
-    for (seek = strtok(buf, find); seek != NULL; seek = strtok(NULL, find)){
-        index = strstr(seek, find);
+    for (seek = strtok(buf, oper); seek != NULL; seek = strtok(NULL, oper)){
         push(link, seek);
-        push(oper, buf[index]);
-        printf("%s", seek);
+        printf("%s\n", seek);
     }
 }

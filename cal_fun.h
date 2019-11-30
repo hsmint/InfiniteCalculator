@@ -24,18 +24,18 @@ void init(LIST*);
 
 void push(LIST*, DATA);
 
-char pop(LIST*);
+char* pop(LIST*);
 
 int size(LIST*);
 
 int empty(LIST*);
 
-char top(LIST*);
+char* top(LIST*);
 
 //Operation Function
 
-void(*func_p(const char opCode))(NODE, NODE);
+void(*func_p(const char opCode))(NODE*, NODE*);
 
-NODE* add(NODE*, NODE*);
+void add(NODE*, NODE*);
 
-NODE* minus(NODE*, NODE*);
+void minus(NODE*, NODE*);

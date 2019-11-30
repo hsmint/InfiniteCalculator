@@ -8,14 +8,12 @@ void(*func_p(const char opCode))(NODE*, NODE*){
     }
 }
 
-NODE* add(NODE* a, NODE* b){
+void add(NODE* a, NODE* b){
     NODE* new_num = (NODE*)malloc(sizeof(NODE));
 
-    return new_num;
 }
 
-NODE* minus(NODE* a, NODE* b){
+void minus(NODE* a, NODE* b){
     NODE* new_num = (NODE*)malloc(sizeof(NODE));
 
-    return new_num;
 }

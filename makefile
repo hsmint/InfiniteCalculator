@@ -1,6 +1,6 @@
-CC      =  gcc-9
+CC      =  gcc
 CFLAGS  =
-EXEC    =  infi_cal.out
+EXEC    =  a.out
 INCLS   =  
 LIBS    = 
 
@@ -16,3 +16,8 @@ $(OBJS): cal_fun.h
 relink:
 	@echo "relinking ..."
 	@$(CC) -o $(EXEC)  $(OBJS)  $(LIBS)
+
+clean:
+	rm -f *.o
+	rm -rf *.out
+
