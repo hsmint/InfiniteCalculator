@@ -37,7 +37,6 @@ int main(int argc, char* argv[]){
 
     // Operation
     
-
     //finish
     free(oper);
     free(link);
@@ -57,9 +56,21 @@ int read(FILE* ifp, char** buf){
 
 void store(LIST* link, char* buf){
     char* oper = "+-()";
+    char* oper_c = "+-";
     char* seek;
+    printf("%s\n", buf);
+    char* search = strpbrk(buf, oper_c);
+    printf("%s\n", search);
+    char* op = (char*)malloc(sizeof(char)*2);
+    op[1] = 0;
     for (seek = strtok(buf, oper); seek != NULL; seek = strtok(NULL, oper)){
         push(link, seek);
-        printf("%s\n", seek);
+        if (search != NULL){
+            op[0] = search[0];
+            push(link, op);
+            search = strpbrk(search+1, oper_c);
+        }
     }
+    printf("Finished\n");
+    free(op);
 }

@@ -1,4 +1,5 @@
 #include "cal_fun.h"
+#include <stdio.h>
 
 //LIST METHOD
 
@@ -9,14 +10,17 @@ void init(LIST* s){
 
 void push(LIST* s, DATA data){
     NODE* tmp = (NODE*)malloc(sizeof(NODE));
+    printf("pushing: %s\n", data);
     int size = strlen(data) + 1;
     tmp->next = s->head;
+    s->head = tmp;
     tmp->d = (char*)malloc(sizeof(char)*size);
     tmp->d = data;
-    s->head = tmp;
+    printf("inserted: %s with size of %d\n", tmp->d, size);
 }
 
 char* pop(LIST* s){
+    if (s->num == 0) return NULL;
     NODE* new_head = s->head->next;
     DATA pop_d = s->head->d;
     free(s->head);
@@ -35,6 +39,6 @@ int empty(LIST* s){
 }
 
 char* top(LIST* s){
-    if (s->num == 0) return '\0';
+    if (s->num == 0) return NULL;
     else return s->head->d;
 }

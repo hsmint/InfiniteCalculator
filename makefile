@@ -25,4 +25,7 @@ clean:
 main:
 	@$(CC) -c infi_cal.c
 
+node:
+	@$(CC) -c node.c
+
 
