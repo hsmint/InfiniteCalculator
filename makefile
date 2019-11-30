@@ -15,9 +15,14 @@ $(OBJS): cal_fun.h
 
 relink:
 	@echo "relinking ..."
+	@$(CC) $(INCLS) -c $*.c
 	@$(CC) -o $(EXEC)  $(OBJS)  $(LIBS)
 
 clean:
 	rm -f *.o
 	rm -rf *.out
+
+main:
+	@$(CC) -c infi_cal.c
+
 
