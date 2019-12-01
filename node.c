@@ -1,44 +1,66 @@
 #include "cal_fun.h"
-#include <stdio.h>
 
-//LIST METHOD
+//STACK METHOD
 
-void init(LIST* s){
+void s_init(STACK* s){
     s->num = 0;
     s->head = NULL;
 }
 
-void push(LIST* s, DATA data){
-    NODE* tmp = (NODE*)malloc(sizeof(NODE));
-    printf("pushing: %s\n", data);
-    int size = strlen(data) + 1;
-    tmp->next = s->head;
-    s->head = tmp;
-    tmp->d = (char*)malloc(sizeof(char)*size);
+void s_push(STACK* s, DATA data){
+    S_NODE* tmp = (S_NODE*)malloc(sizeof(S_NODE));
     tmp->d = data;
-    printf("inserted: %s with size of %d\n", tmp->d, size);
+    tmp->next = s->head;
+    s->head=tmp;
+    s->num += 1;
 }
 
-char* pop(LIST* s){
-    if (s->num == 0) return NULL;
-    NODE* new_head = s->head->next;
-    DATA pop_d = s->head->d;
-    free(s->head);
-    s->num -= 1;
-    s->head = new_head;
-    return pop_d;
+char s_pop(STACK* s){
+    if (s->num == 0) return 0;
+    char data = s->head->d;
+    S_NODE* delete = s->head;
+    s->head = s->head->next;
+    free(delete);
+    s->num -=1;
+    return data;
 }
 
-int size(LIST* s){
+int s_size(STACK* s){
     return s->num;
 }
 
-int empty(LIST* s){
+int s_empty(STACK* s){
     if (s->num == 0) return 0;
     else return -1;
 }
 
-char* top(LIST* s){
-    if (s->num == 0) return NULL;
+char s_top(STACK* s){
+    if (s->num == 0) return 0;
     else return s->head->d;
+}
+
+//LIST METHOD
+
+void init(LIST* l){
+    l->num = 0;
+    l->head = NULL;
+}
+
+void add(LIST* l){
+    NODE* tmp = (NODE*)malloc(sizeof(NODE));
+    tmp->pre = NULL;
+    if (l->head != NULL) tmp->next = l->head;
+    else{
+        l->head->pre = tmp;
+        tmp->next = NULL;
+    }
+    l->head = tmp;
+}
+
+void push(LIST* l, DATA data){
+    NUM* tmp = (NUM*)malloc(sizeof(NUM));
+    tmp->pre = NULL;
+    tmp->next = l->head;
+    tmp->d = data;
+    l->head = tmp;
 }
