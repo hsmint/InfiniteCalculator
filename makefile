@@ -1,10 +1,10 @@
-CC      =  gcc
+CC      =  gcc-9
 CFLAGS  =
 EXEC    =  a.out
 INCLS   =  
 LIBS    = 
 
-OBJS    =  infi_cal.o  func.o  node.o
+OBJS    =  infi_cal.o  func.o
 
 $(EXEC): $(OBJS)
 	@echo "linking ..."
@@ -25,7 +25,7 @@ clean:
 main:
 	@$(CC) -c infi_cal.c
 
-node:
-	@$(CC) -c node.c
+func:
+	@$(CC) -c func.c
 
 

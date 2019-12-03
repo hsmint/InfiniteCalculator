@@ -1,66 +1,49 @@
 #include <stdlib.h>
 #include <string.h>
-//DEFINE
+#include <stdio.h>
 
-#define DATA char
-#define CNT int
 
-//TYPEDEF
-
-typedef struct num{
-    DATA         d;
-    struct NUM* next;
+//Num-list
+typedef struct NUM{
+    char data;
     struct NUM* pre;
-}NUM;
+    struct NUM* next;
+}num;
 
-typedef struct node{
-    struct NUM* head;
-    struct node* next;
-    struct node* pre;
-}NODE;
+typedef struct NODE{
+    int size;
+    num* tail;
+    struct NODE* pre_data;
+    struct NODE* next_data;
+}node;
 
-//LIST
-typedef struct list{
-    CNT num;
-    NODE* head;
-}LIST;
+typedef struct LIST{
+    int cnt;
+    node* back;
+}list;
 
-typedef struct stack_node{
-    DATA    d;
-    struct st_data* next;
-}S_NODE;
 
-typedef struct stack{
-    CNT num;
-    S_NODE* head;
-}STACK;
+//Stack
+typedef struct STACK_NODE{
+    char op_data;
+    struct STACK_NODE* next_node;
+}s_node;
 
-//STACK METHOD
+typedef struct STACK{
+    int cnt;
+    s_node* head;
+}stack;
 
-void s_init(STACK* s);
+//Function
 
-void s_push(STACK* s, DATA data);
+void init(list*);
 
-char s_pop(STACK* s);
+void s_init(stack*);
 
-int s_size(STACK* s);
+void node_add(list*);
 
-int s_empty(STACK* s);
+void data_push(list*, char);
 
-char s_top(STACK* s);
+void s_push(stack*, char);
 
-//LIST METHOD
-
-void init(LIST*);
-
-void push(LIST*, DATA);
-
-void add(LIST*);
-
-//Operation Function
-
-//void(*func_p(const char opCode))(NODE*, NODE*);
-
-//void add(NODE*, NODE*);
-
-//void minus(NODE*, NODE*);
+void read(FILE*, char**);
