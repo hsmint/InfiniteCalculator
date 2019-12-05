@@ -12,6 +12,7 @@ typedef struct NUM{
 
 typedef struct NODE{
     int size;
+    num* head;
     num* tail;
     struct NODE* pre_data;
     struct NODE* next_data;
@@ -45,3 +46,5 @@ void node_add(list*);
 void data_push(list*, char);
 
 void s_push(stack*, char);
+
+void read(FILE*, char**);

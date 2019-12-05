@@ -3,12 +3,14 @@
 void init(list* l){
     l->cnt = 0;
     l->back = NULL;
+    node_add(l);
 }
 
 void node_add(list* l){
     node* tmp = (node*)malloc(sizeof(node));
     if (l->back != NULL) l->back->pre_data = tmp;
     tmp->size = 0;
+    tmp->head = NULL;
     tmp->tail = NULL;
     tmp->next_data = l->back;
     tmp->pre_data = NULL;
@@ -18,12 +20,17 @@ void node_add(list* l){
 
 void data_push(list* l, char d){
     num* tmp = (num*)malloc(sizeof(num));
-    if (l->back->tail != NULL) l->back->tail->pre = tmp;
     tmp->data = d;
-    tmp->pre = NULL;
-    tmp->next = l->back->tail;
-    l->back->tail = tmp;
-    l->back->size++;
+    tmp->next = NULL;
+    if (l->back->head == NULL){
+        l->back->head = tmp;
+        l->back->tail = tmp;
+        tmp->pre = NULL;
+    } else{
+        tmp->pre = l->back->tail;
+        l->back->tail->next = tmp;
+        l->back->tail = tmp;
+    }
 }
 
 void s_init(stack* s){
@@ -37,4 +44,12 @@ void s_push(stack* s, char d){
     tmp->next_node = s->head;
     s->head = tmp;
     s->cnt++;
+}
+
+void read(FILE* ifp, char** buf){
+    fseek(ifp, 0, SEEK_END);
+    int size = ftell(ifp) + 1;
+    fseek(ifp, 0, SEEK_SET);
+    *buf = (char*)malloc((sizeof(char))*size);
+    fscanf(ifp, "%s", *buf);
 }

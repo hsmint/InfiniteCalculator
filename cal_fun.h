@@ -12,6 +12,7 @@ typedef struct NUM{
 
 typedef struct NODE{
     int size;
+    num* head;
     num* tail;
     struct NODE* pre_data;
     struct NODE* next_data;

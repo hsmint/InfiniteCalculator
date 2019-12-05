@@ -8,10 +8,24 @@ int main(){
     s_init(op);
     
     //function
-    s_push(op, '+');
-    s_push(op, '-');
-    printf("This is num size: %d\n", op->cnt);
-    printf("This is what is in the top: %c\n", op->head->op_data);
+    data_push(link, '1');
+    data_push(link, '2');
+    data_push(link, '3');
+    node_add(link);
+    data_push(link, '4');
+    data_push(link, '5');
+    data_push(link, '6');
+    node* curr = link->back;
+    while(curr != NULL){
+        printf("DATA: ");
+        num* cn = curr->head;
+        while(cn != NULL){
+            printf("%c", cn->data);
+            cn = cn->next;
+        }
+        printf("\n");
+        curr = curr->next_data;
+    }
     //end
     printf("Success\n");
     free(link);

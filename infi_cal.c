@@ -26,31 +26,41 @@ int main(int argc, char* argv[]){
     s_init(op);
 
     // Save
-    int check = 0;
+    int* check = (int*)malloc(sizeof(int)*3);
+    check[0] = check[1] = check[2] = 0;
     while(*buf != '\0'){
-        if (*buf == ' ') continue;
-        elif (*buf == '+' || *buf == '-' || *buf == '(' || *buf == ')'){
-            if (check){
-                data_push(link, *buf);
-            } else{
-                node_add(link);
-                data_push(link, *buf);
+        if (*buf == ' '){
+            continue;
+        }
+        else if (*buf == '+' || *buf == '-' || *buf == '(' || *buf == ')') {
+            if (*buf == ')') {
+                buf++;
+                continue;
+            } else {
+                if (check[0] == 0){
+                    s_push(op, *buf);
+                    node_add(link);
+                    check[0] = 1;
+                } else{
+                    s_push(op, *buf);
+                    check[0] = 0;
+                }
             }
-            if (*(buf+1) != '\0') node_add(link);
-            s_push(op, *buf);
-            check = 1;
+            check[1] = 0;
         } else {
+            if (*buf == '.') check[1] = 1;
             data_push(link, *buf);
-            check = 0;
+            if (check) link->back->size++;
         }
         buf++;
     }
+    free(check);
     
     // Check
     printf("Showing what is inside in link\n");
     node* curr = link->back;
     while(curr != NULL){
-        num* num_curr = curr->tail;
+        num* num_curr = curr->head;
         printf("Data: ");
         while(num_curr != NULL){
             printf("%c", num_curr->data);
@@ -60,6 +70,7 @@ int main(int argc, char* argv[]){
         curr = curr->next_data;
     }
     printf("Finish\n");
+    
     //Finish    
     free(op);
     free(link);

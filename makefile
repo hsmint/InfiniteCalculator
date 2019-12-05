@@ -1,4 +1,4 @@
-CC      =  gcc-9
+CC      =  gcc
 CFLAGS  =
 EXEC    =  a.out
 INCLS   =  
@@ -28,4 +28,5 @@ main:
 func:
 	@$(CC) -c func.c
 
-
+all:
+	@$(CC) infi_cal.c func.c
