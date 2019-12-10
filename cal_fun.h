@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <string.h>
 #include <stdio.h>
 
 
@@ -11,7 +10,7 @@ typedef struct NUM{
 }num;
 
 typedef struct NODE{
-    int size;
+    unsigned long size;
     num* head;
     num* tail;
     struct NODE* pre_data;

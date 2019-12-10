@@ -48,7 +48,7 @@ void s_push(stack* s, char d){
 
 void read(FILE* ifp, char** buf){
     fseek(ifp, 0, SEEK_END);
-    int size = ftell(ifp) + 1;
+    unsigned long size = ftell(ifp) + 1;
     fseek(ifp, 0, SEEK_SET);
     *buf = (char*)malloc((sizeof(char))*size);
     fscanf(ifp, "%s", *buf);

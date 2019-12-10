@@ -61,16 +61,16 @@ int main(int argc, char* argv[]){
     node* curr = link->back;
     while(curr != NULL){
         num* num_curr = curr->head;
-        printf("Data: ");
+        printf("NODE: ");
         while(num_curr != NULL){
-            printf("%c", num_curr->data);
+            printf("%c ", num_curr->data);
             num_curr = num_curr->next;
         }
         printf("\n");
         curr = curr->next_data;
     }
     printf("Finish\n");
-    
+
     //Finish    
     free(op);
     free(link);
