@@ -1,4 +1,5 @@
 #include "cal_fun.h"
+#include <string.h>
 
 void init(list* l){
     l->cnt = 0;
