@@ -1,4 +1,5 @@
 #include "cal_fun.h"
+#include <string.h>
 
 //메인
 int main(int argc, char* argv[]){
