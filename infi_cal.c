@@ -1,5 +1,4 @@
 #include "cal_fun.h"
-#include <string.h>
 
 //메인
 int main(int argc, char* argv[]){
@@ -27,35 +26,60 @@ int main(int argc, char* argv[]){
     s_init(op);
 
     // Save
-    int* check = (int*)malloc(sizeof(int)*3);
-    check[0] = check[1] = check[2] = 0;
+    printf("Calculating...\n");
+    int* chk = (int*)malloc(sizeof(int)*4);
+    chk[0] = chk[1] = chk[2] = chk[3] = 0;
+    //check[0] = 연산자 수 확인, check[1] = '.' 수 확인, check[2] = '(' 수 확인, check[3] = 전이 '('이였는지
     while(*buf != '\0'){
         if (*buf == ' '){
             continue;
         }
         else if (*buf == '+' || *buf == '-' || *buf == '(' || *buf == ')') {
-            if (*buf == ')') {
+            if (*buf == ')') { // ')' 이면
                 buf++;
+                if (chk[2] == 0){
+                    printf("Wrong squence found.\nExiting...\n");
+                    exit(1);
+                }
+                chk[2]--;
                 continue;
-            } else {
-                if (check[0] == 0){
+            } else if (*(buf+1) == '\0'){
+                printf("Wrong squence found.\nExiting...\n");
+                exit(1);
+            } else if (*buf == '('){ // '(' 이면
+                chk[2]++;
+                chk[0]--;
+                chk[3] = 1;
+                s_push(op, *buf);
+            } else if (*buf == '-' && chk[3] == 1){ //'(' 다음 -이면ㅡㅡ
+                chk[3] = 0;
+                data_push(link, *buf);
+            }
+            else {
+                if (chk[0] == 0){
                     s_push(op, *buf);
                     node_add(link);
-                    check[0] = 1;
+                    chk[0] = 1;
                 } else{
                     s_push(op, *buf);
-                    check[0] = 0;
+                    chk[0] = 0;
                 }
             }
-            check[1] = 0;
+            chk[1] = 0;
         } else {
-            if (*buf == '.') check[1] = 1;
+            if (chk[1]) link->back->size++;
+            if (*buf == '.' & chk[1] != 0){
+                printf("Wrong squence found.\nExiting...\n");
+                exit(1);
+            } else if (*buf == '.'){
+                chk[1] = 1;
+            }
             data_push(link, *buf);
-            if (check) link->back->size++;
+            chk[0] = 0;
         }
         buf++;
     }
-    free(check);
+    free(chk);
     
     // Check
     printf("Showing what is inside in link\n");
@@ -67,7 +91,7 @@ int main(int argc, char* argv[]){
             printf("%c ", num_curr->data);
             num_curr = num_curr->next;
         }
-        printf("\n");
+        printf(" Size: %ld\n", curr->size);
         curr = curr->next_data;
     }
     printf("Finish\n");
