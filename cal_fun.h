@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
 //Num-list
 typedef struct NUM{
     char data;
@@ -10,7 +9,7 @@ typedef struct NUM{
 }num;
 
 typedef struct NODE{
-    unsigned long size;
+    int size;
     num* head;
     num* tail;
     struct NODE* pre_data;
@@ -47,3 +46,13 @@ void data_push(list*, char);
 void s_push(stack*, char);
 
 void read(FILE*, char**);
+
+void num_push(node*, char);
+
+void node_init(node*);
+
+void add(node*, node*);
+
+void minus(node*, node*);
+
+void multiply(node*, node*);
