@@ -45,13 +45,19 @@ void data_push(list*, char);
 
 void s_push(stack*, char);
 
+char s_top(stack*);
+
+int s_empty(stack*);
+
+int s_pop(stack*);
+
 void read(FILE*, char**);
 
 void num_push(node*, char);
 
 void node_init(node*);
 
-void add(node*, node*);
+void add(list* link);
 
 void minus(node*, node*);
 
