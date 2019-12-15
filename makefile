@@ -19,7 +19,6 @@ relink:
 	@$(CC) -o $(EXEC)  $(OBJS)  $(LIBS)
 
 clean:
-	rm -f *.o
 	rm -rf *.out
 
 main:
@@ -29,4 +28,4 @@ func:
 	@$(CC) -c func.c
 
 all:
-	@$(CC) infi_cal.c func.c
+	@$(CC) -g src/inf_calc.c src/func.c src/cal_fun.c

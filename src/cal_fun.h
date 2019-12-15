@@ -9,7 +9,8 @@ typedef struct NUM{
 }num;
 
 typedef struct NODE{
-    int size;
+    int f_size;
+    int b_size;
     num* head;
     num* tail;
     struct NODE* pre_data;
@@ -57,8 +58,8 @@ void num_push(node*, char);
 
 void node_init(node*);
 
-void add(list* link);
+void add(list*);
 
-void minus(node*, node*);
+void minus(list*);
 
 void multiply(node*, node*);
