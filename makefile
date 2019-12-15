@@ -29,3 +29,6 @@ func:
 
 all:
 	@$(CC) -g src/inf_calc.c src/func.c src/cal_fun.c
+
+evaluate:
+	@$(CC) -o test/inf_calc src/inf_calc.c src/func.c src/cal_fun.c
