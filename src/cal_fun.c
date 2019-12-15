@@ -2,7 +2,6 @@
 
 //Calculate
 void num_push(node* n, char d){
-    printf("%c\n", d);
     num* tmp = (num*)malloc(sizeof(num));
     tmp->data = d;
     tmp->pre = NULL;
@@ -13,13 +12,11 @@ void num_push(node* n, char d){
 }
 
 int add_num(node* new_tmp, int up, int x){
-    if (up){
-        x++;
-        up = 0;
-    }
-    if (x / 10 != 0){
-        up = 1;
-        x -= 10;
+    x += up;
+    up = 0;
+    if (x/10 != 0){
+        up = x / 10;
+        x %= 10;
     }
     num_push(new_tmp, x+'0');
     return up;
@@ -34,13 +31,8 @@ int minus_num(node* new_tmp, int down, int x){
         x += 10;
         down = 1;
     }
-    printf("%d\n", x);
     num_push(new_tmp, x+'0');
     return down;
-}
-
-int multi_num(node* new_tmp, int multi, int x){
-    
 }
 
 void trash(node* n){
@@ -252,7 +244,6 @@ void minus(list* link){
         num_push(new_tmp, x+'0');
         bc = bc->pre;
         for (int i = 0; i < back-front-1; i++){
-            printf("%d\n", ((bc->data)-'0'));
             x = 9 - ((bc->data)-'0');
             num_push(new_tmp, x+'0');
             bc = bc->pre;
@@ -281,8 +272,7 @@ void minus(list* link){
         ac = ac->pre;
         bc = bc->pre;
     }
-
-
+    
     //Last Calculate
     while(ac != NULL){
         int x = ((ac->data)-'0');
@@ -292,17 +282,30 @@ void minus(list* link){
 
 
     //Delecting front 0s
-    if (new_tmp->head->data == '0'){
+    if (new_tmp->head->data == '0' && new_tmp->f_size != 1){
         num* curr = new_tmp->head;
-        while(curr->data == '0'){
+        while(curr->data == '0' && new_tmp->f_size != 1){
             curr = curr->next;
             free(curr->pre);
             curr->pre = NULL;
+            new_tmp->f_size--;
         }
         new_tmp->head = curr;
     }
 
     if ((re && !down) || (!re && down)){
+        if (new_tmp->f_size == 1){
+            new_tmp->head->data = '0';
+            num* curr = new_tmp->tail;
+            int x = 10 - ((curr->data)-'0');
+            curr->data = (x+'0');
+            curr = curr->pre;
+            for (int i = 0; i < (new_tmp->b_size)-1; i++){
+                x = 9 - ((curr->data)-'0');
+                curr->data = (x+'0');
+                curr = curr->pre;
+            }
+        }
         num_push(new_tmp, '-');
     }
 
@@ -316,5 +319,121 @@ void minus(list* link){
 void multiply(list* link){
     node* a = link->back->pre_data;
     node* b = link->back;
+    //init
+    node* new_tmp = (node*)malloc(sizeof(node));
+    new_tmp->head = NULL;
+    new_tmp->tail = NULL;
+    new_tmp->f_size = 0;
+    new_tmp->pre_data = a->pre_data;
+    new_tmp->next_data = b->next_data;
+    new_tmp->b_size = (a->b_size) + (b->b_size);
+    link->back = new_tmp;
+    num* ac = a->tail;
+    num* bc = b->tail;
+    int chk = 0, multi = 0, count = 0, x, sign = 0;
 
+    //Minus out
+    if (a->head->data == '-' && b->head->data == '-'){
+        a->head = a->head->next;
+        b->head = b->head->next;
+        free(a->head->pre);
+        free(b->head->pre);
+        a->head->pre = NULL;
+        b->head->pre = NULL;
+    } else if (a->head->data == '-'){
+        a->head = a->head->next;
+        free(a->head->pre);
+        a->head->pre = NULL;
+        chk = 1;
+    } else if (b->head->data == '-'){
+        b->head = b->head->next;
+        free(b->head->pre);
+        b->head->pre = NULL;
+        chk = 1;
+    }
+
+    // Multiply once
+    while(ac != NULL){
+        if (ac->data != '.' && bc->data != '.'){
+            x = ((ac->data)-'0')*((bc->data)-'0');
+            multi = add_num(new_tmp, multi, x);
+            new_tmp->f_size++;
+        }
+        ac = ac->pre;
+    }
+    if (multi){
+        num_push(new_tmp, multi+'0');
+        multi = 0;
+        new_tmp->f_size++;
+    }
+
+    ac = a->tail;
+    bc = bc->pre;
+    num* tc = new_tmp->tail;
+
+    // Multiply Calculate
+    while(bc != NULL){
+        for (int i = 0; i < count; i++){
+            tc = tc->pre;
+        }
+        while(ac != NULL){
+            if (ac->data != '.' && bc->data != '.'){
+                x = ((ac->data)-'0')*((bc->data)-'0') + multi;
+                multi = 0;
+                if (x /10 != 0){
+                    multi = x / 10;
+                    x %= 10;
+                }
+                if (tc->pre == NULL){
+                    new_tmp->f_size++;
+                    num_push(new_tmp, x+'0');
+                } else {
+                    tc = tc->pre;
+                    x += ((tc->data)-'0');
+                    if (x / 10 != 0){
+                        multi += x / 10;
+                        x %= 10;
+                    }
+                    tc->data = (x+'0');
+                }
+            }
+            if (bc->data == '.') sign = 1;
+            ac = ac->pre;
+        }
+        if (sign == 0) count++;
+
+        if (multi){
+            num_push(new_tmp, multi+'0');
+            new_tmp->f_size++;
+        }
+        bc = bc->pre;
+        ac = a->tail;
+        tc = new_tmp->tail;
+        multi = 0;
+        sign = 0;
+    }
+
+    // Putting '.'
+    if(new_tmp->b_size != 0){
+        tc = new_tmp->tail;
+        for (int i = 0; i < (new_tmp->b_size)-1; i++){
+            tc = tc->pre;
+        }
+        num* tmp = (num*)malloc(sizeof(num));
+        tmp->data = '.';
+        tmp->pre = tc->pre;
+        tmp->next = tc;
+        tc->pre->next = tmp;
+        tc->pre = tmp;
+    }
+    
+    if (chk){
+        num_push(new_tmp, '-');
+    }
+    new_tmp->f_size -= (new_tmp->b_size);
+    //freeing a and b;
+    trash(a);
+    trash(b);
+    free(a);
+    free(b);
 }

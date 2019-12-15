@@ -58,11 +58,9 @@ int s_empty(stack* s){
     return 1;
 }
 
-int s_pop(stack* s){
-    if (s->cnt == 0) return 0;
+void s_pop(stack* s){
     s_node* del = s->head;
     s->head = s->head->next_node;
     free(del);
     s->cnt--;
-    return 1;
 }

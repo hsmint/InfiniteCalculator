@@ -1,8 +1,5 @@
 #include "cal_fun.h"
 
-
-void see(list*, stack*);
-
 int main(int argc, char* argv[]){
     char* buf;
     FILE *ifp, *ofp;
@@ -18,6 +15,7 @@ int main(int argc, char* argv[]){
 
     // file read
     ifp = fopen(argv[1], "r");
+    
     // Init
     list* link = (list*)malloc(sizeof(list));
     stack* op = (stack*)malloc(sizeof(stack)); 
@@ -36,13 +34,12 @@ int main(int argc, char* argv[]){
     }
     // Save
     printf("Calculating...\n");
-    int chk[4] = {0};
-    chk[0] = chk[1] = chk[2] = chk[3] = 0;
-    // chk[0] = '.', chk[1] = '(' 수 확인, chk[2] = 방금 전이 '(' 이였는지, chk[3] = 연산자 수 확인
+    int chk[5] = {0};
+    // chk[0] = '.', chk[1] = '(' 수 확인, chk[2] = 방금 전이 '(' 이였는지, chk[3] = 연산자 수 확인, chk[4] = -(-) 확인
     int play = 1;
-    while(1 && one){
+    while(one){
         if (x == '(' || x == ')'){ // '()'
-            if (x == '('){ //'('
+            if (x == '('){ // x = (
                 if (play) {
                     chk[1]++;
                     chk[2] = 1;
@@ -51,58 +48,71 @@ int main(int argc, char* argv[]){
                     printf("Wrong input found from back.\nExiting...\n");
                     exit(1);
                 }
-            } else{
-                if (chk[1]){
+
+            } else{ // x = )
+                if (chk[1]){ // ( not 0
                     chk[1]--;
                     chk[2] = 0;
                     while(s_top(op) != '('){
                         if (s_top(op) == '+'){
-                            see(link, op);
                             add(link);
                             s_pop(op);
                         } 
                         link->cnt--;
-                        see(link, op);
                     }
                     s_pop(op);
-                } else{
+
+                } else{ // There is no (
                     printf("Wrong input found: )\nExiting...\n");
                     exit(1);
                 }
             }
 
         } else if (x == '+' || x == '-' || x == '*'){
-            if (play == 0){
+            if (play == 0){ //Next is EOF
                 printf("Wrong input found from back.\nExiting...\n");
                 exit(1);
-            } else if (x == '-' && chk[2]){
-                data_push(link, x);
-            } else if(chk[3]){
-                printf("Wrong input found.\nExiting...\n");
+
+            } else if (x == '-' && chk[2]){ // ( after - 
+                if (!chk[4]) data_push(link, x); // not -(-
+                else{ //-(-
+                    free(link->back->head);
+                    link->back->head = NULL;
+                }
+
+            } else if(chk[3]){ //function more than 1
+                printf("Wrong input found. Here\nExiting...\n");
                 exit(1);
-            } else if (x == '-'){
-                s_push(op, '+');
+
+            } else{ // * + -
+                if (x == '+' || x == '-'){ // + -
+                    if (s_top(op) == '*'){
+                        multiply(link);
+                        s_pop(op);
+                        link->cnt--;
+                    }
+                    s_push(op, '+');
+                } else { // *
+                    s_push(op, x);
+                }
                 node_add(link);
-                data_push(link, x);
+                if (x == '-') data_push(link, x); // - to + so push -
                 chk[3] = 1;
                 chk[0] = 0;
-            } else {
-                s_push(op, x);
-                node_add(link);
-                chk[3] = 1;
-                chk[0] = 0;
+                chk[4] = 1;
             }
 
-        } else if ('0' <= x && x <= '9'){
+        } else if ('0' <= x && x <= '9'){ //Numbers
             if (chk[0]) link->back->b_size++;
             else link->back->f_size++;
             data_push(link, x);
-            chk[3] = 0;
             chk[2] = 0;
+            chk[3] = 0;
+            chk[4] = 0;
 
             
-        } else if (x == '.'){
-            if (chk[0]){
+        } else if (x == '.'){ // . in
+            if (chk[0]){ // Too many .
                 printf("Wrong input found: %c\nExiting...\n", x);
                 exit(1);
             } else{
@@ -112,28 +122,30 @@ int main(int argc, char* argv[]){
                 }
             }
 
-        } else{
-            if (x != ' '){
+        } else{ // Some other words or inputs
+            if (x != ' ' && x != '\n'){
                 printf("Wrong input found. Something gone wrong.\nExiting...\n");
                 exit(1);
             }
         }
         
+        // Final
         x = y;
-        if (play){
+        if (play){ // checking if y made to EOF
             if (fscanf(ifp, "%c", &y) == EOF) play = 0;
         } else{
             break;
         }
     }
 
-    see(link, op);
     // Last Calculate
     while(s_empty(op)){
         if (s_top(op) == '+'){
             add(link);
             s_pop(op);
-            see(link, op);
+        } else{
+            multiply(link);
+            s_pop(op);
         }
         link->cnt--;
     }
@@ -143,58 +155,34 @@ int main(int argc, char* argv[]){
         printf("Something gone wrong\nExiting...\n");
         exit(1);
     }
-
-    // Check
-    //see(link, op);
+    
     printf("Finished Calculating.\n");
-    printf("The result is : ");
+    //Putting in to string
+    int size = (link->back->f_size)+(link->back->b_size) + 2;
+    char ans[size];
     node* curr = link->back;
+    int i = 0;
     while(curr != NULL){
         num* num_curr = curr->head;
         while(num_curr != NULL){
-            printf("%c", num_curr->data);
-            num_curr = num_curr->next;
+          ans[i] = (num_curr->data);
+          num_curr = num_curr->next;
+          i++;
         }
-        curr = curr->pre_data;
+        ans[i] = '\0';
+        curr = curr->next_data;
     }
-    printf("\n");
+    
+    // Check
+    printf("The result is : %s\n", ans);
 
     ofp = fopen("output", "w");
-    curr = link->back;
-    while(curr != NULL){
-        num* num_curr = curr->head;
-        while(num_curr != NULL){
-            fputc(num_curr->data, ofp);
-            num_curr = num_curr->next;
-        }
-        curr = curr->pre_data;
-    }
+    fputs(ans, ofp);
+
     //Finish    
     free(op);
     free(link);
     fclose(ifp);
     fclose(ofp);
     return 0;
-}
-
-void see(list* link, stack* op){
-    printf("Showing what is inside in link\n");
-    node* curr = link->back;
-    while(curr != NULL){
-        num* num_curr = curr->head;
-        printf("NODE: ");
-        while(num_curr != NULL){
-            printf("%c", num_curr->data);
-            num_curr = num_curr->next;
-        }
-        printf(" Front Size: %d Back Size: %d\n", curr->f_size ,curr->b_size);
-        curr = curr->pre_data;
-    }
-    printf("\nShowing what is inside in stack\n");
-    s_node* sc = op->head;
-    while(sc != NULL){
-        printf("DATA: %c\n", sc->op_data);
-        sc = sc->next_node;
-    }
-    printf("\n");
 }

@@ -50,7 +50,7 @@ char s_top(stack*);
 
 int s_empty(stack*);
 
-int s_pop(stack*);
+void s_pop(stack*);
 
 void read(FILE*, char**);
 
@@ -62,4 +62,4 @@ void add(list*);
 
 void minus(list*);
 
-void multiply(node*, node*);
+void multiply(list*);
