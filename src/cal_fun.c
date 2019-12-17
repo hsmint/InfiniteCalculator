@@ -396,8 +396,11 @@ void multiply(list* link){
                     }
                     tc->data = (x+'0');
                 }
+                
+            }else if (bc->data == '.') {
+                sign = 1;
+                break;
             }
-            if (bc->data == '.') sign = 1;
             ac = ac->pre;
         }
         if (sign == 0) count++;
