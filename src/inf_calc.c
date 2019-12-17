@@ -32,6 +32,7 @@ int main(int argc, char* argv[]){
         one = 0;
         data_push(link, x);
     }
+
     // Save
     printf("Calculating...\n");
     int chk[5] = {0};
@@ -57,7 +58,10 @@ int main(int argc, char* argv[]){
                         if (s_top(op) == '+'){
                             add(link);
                             s_pop(op);
-                        } 
+                        } else{
+                            multiply(link);
+                            s_pop(op);
+                        }
                         link->cnt--;
                     }
                     s_pop(op);
@@ -96,10 +100,12 @@ int main(int argc, char* argv[]){
                     s_push(op, x);
                 }
                 node_add(link);
-                if (x == '-') data_push(link, x); // - to + so push -
+                if (x == '-') {// - to + so push -
+                    data_push(link, x);
+                    chk[4] = 1;
+                }
                 chk[3] = 1;
                 chk[0] = 0;
-                chk[4] = 1;
             }
 
         } else if ('0' <= x && x <= '9'){ //Numbers
@@ -110,7 +116,6 @@ int main(int argc, char* argv[]){
             chk[3] = 0;
             chk[4] = 0;
 
-            
         } else if (x == '.'){ // . in
             if (chk[0]){ // Too many .
                 printf("Wrong input found: %c\nExiting...\n", x);
@@ -157,6 +162,7 @@ int main(int argc, char* argv[]){
     }
     
     printf("Finished Calculating.\n");
+
     //Putting in to string
     int size = (link->back->f_size)+(link->back->b_size) + 2;
     char ans[size];
