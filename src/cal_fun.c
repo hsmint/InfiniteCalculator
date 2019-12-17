@@ -362,7 +362,7 @@ void multiply(list* link){
         ac = ac->pre;
     }
     if (multi){
-        num_push(new_tmp, multi-'0');
+        num_push(new_tmp, multi+'0');
         multi = 0;
         new_tmp->f_size++;
     }
@@ -386,7 +386,7 @@ void multiply(list* link){
                 }
                 if (tc->pre == NULL){
                     new_tmp->f_size++;
-                    num_push(new_tmp, x-'0');
+                    num_push(new_tmp, x+'0');
                 } else {
                     tc = tc->pre;
                     x += ((tc->data)-'0');
@@ -406,7 +406,7 @@ void multiply(list* link){
         if (sign == 0) count++;
 
         if (multi){
-            num_push(new_tmp, multi-'0');
+            num_push(new_tmp, multi+'0');
             new_tmp->f_size++;
         }
         bc = bc->pre;
