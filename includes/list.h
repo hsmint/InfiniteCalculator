@@ -16,16 +16,16 @@ typedef struct list {
 
 NODE *add_element(char data);
 
-void push_left(NODE *node, char data);
+int push_left(NODE **node, char data);
 
-void push(NODE *node, char data);
+int push(NODE **node, char data);
 
-char pop(NODE *node);
+char pop(NODE **node);
 
-char pop_left(NODE *node);
+char pop_left(NODE **node);
 
-void empty(NODE *node);
+int empty(NODE *node);
 
-void link(LIST *list, NODE *node);
+int link(LIST **list, NODE *node);
 
 #endif
