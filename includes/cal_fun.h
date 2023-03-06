@@ -1,12 +1,14 @@
-#include <stdlib.h>
-#include <stdio.h>
+#ifndef LIST
+#define LIST
 
-//Num-list
-typedef struct NUM{
+#include <stdlib.h>
+//#include <stdio.h>
+
+typedef struct s_node{
     char data;
     struct NUM* pre;
     struct NUM* next;
-}num;
+} node;
 
 typedef struct NODE{
     int f_size;
@@ -63,3 +65,5 @@ void add(list*);
 void minus(list*);
 
 void multiply(list*);
+
+#endif

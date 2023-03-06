@@ -1,34 +1,18 @@
-CC      =  gcc
-CFLAGS  =
-EXEC    =  a.out
-INCLS   =  
-LIBS    = 
+CC      =	gcc
+HEADS   =	$(shell find ./includes -type f -name *.h)
+SRCS 	=	$(shell find ./src -type f -name *.c)
+OBJS	=	$(SRCS:.c=.o)
 
-OBJS    =  infi_cal.o  func.o
-
-$(EXEC): $(OBJS)
+all: $(OBJS)
 	@echo "linking ..."
-	@$(CC) -o $(EXEC)  $(OBJS)  $(LIBS)
 
-$(OBJS): cal_fun.h
-	$(CC) $(INCLS)  -c  $*.c
+$(OBJS): $(SRCS)
+
+%.o: %.c
+	$(CC) -c $< -o $(<:.c=.o) -Include $(HEADS)
+
+clean:
+	rm -rf src/*.o
 
 relink:
 	@echo "relinking ..."
-	@$(CC) $(INCLS) -c $*.c
-	@$(CC) -o $(EXEC)  $(OBJS)  $(LIBS)
-
-clean:
-	rm -rf *.out
-
-main:
-	@$(CC) -c infi_cal.c
-
-func:
-	@$(CC) -c func.c
-
-all:
-	@$(CC) -g src/inf_calc.c src/func.c src/cal_fun.c
-
-evaluate:
-	@$(CC) -o test/inf_calc src/inf_calc.c src/func.c src/cal_fun.c
